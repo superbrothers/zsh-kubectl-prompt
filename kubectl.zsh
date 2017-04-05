@@ -27,7 +27,12 @@ function _zsh_kubectl_prompt_precmd() {
     fi
 
     zstyle -s ':zsh-kubectl-prompt:' updated_at updated_at
-    if ! now="$(stat -c '%y' "$kubeconfig" 2>/dev/null)"; then
+    if [[ $(uname) == "Linux" ]]; then
+        now="$(stat -c '%y' "$kubeconfig" 2>/dev/null)"
+    elif [[ $(uname) == "Darwin" ]]; then
+        now="$(stat -f '%m' "$kubeconfig" 2>/dev/null)"
+    fi
+    if ! [[ -n $now ]]; then
         ZSH_KUBECTL_PROMPT="kubeconfig is not found"
         return 1
     fi
