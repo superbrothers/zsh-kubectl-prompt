@@ -26,6 +26,25 @@ Does not display the current namespace:
 zstyle ':zsh-kubectl-prompt:' namespace false
 ```
 
+## With a plugin manager
+
+If you use [zgen](https://github.com/tarjoilija/zgen), load this repository as follows:
+```sh
+source "${HOME}/.zgen/zgen.zsh"
+
+# if the init script doesn't exist
+if ! zgen saved; then
+    # specify plugins here
+    zgen load superbrothers/zsh-kubectl-prompt
+
+    # generate the init script from plugins above
+    zgen save
+fi
+
+autoload -U colors; colors
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+```
+
 ## License
 
 This script is released under the MIT License.
