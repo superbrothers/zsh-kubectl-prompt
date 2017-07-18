@@ -14,6 +14,12 @@ This script displays information about the kubectl current context and namespace
     RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
     ```
 
+Also you can install with homebrew as follows:
+```
+$ brew tap superbrothers/zsh-kubectl-prompt
+$ brew install zsh-kubectl-prompt
+```
+
 ## Customization
 
 Change the separator between context and namespace:
