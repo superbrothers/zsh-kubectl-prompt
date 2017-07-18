@@ -6,16 +6,16 @@ This script displays information about the kubectl current context and namespace
 
 ## Usage
 
-1. Clone this repository.
-2. Source the `kubectl.zsh` from your `~/.zshrc` config file, and configure your prompt.
-    ```sh
-    autoload -U colors; colors
-    source /path/to/zsh-kubectl-prompt/kubectl.zsh
-    RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
-    ```
 
-Also you can install with homebrew as follows:
+Clone this repository and source the `kubectl.zsh` from your `~/.zshrc` config file, and configure your prompt.
+```sh
+autoload -U colors; colors
+source /path/to/zsh-kubectl-prompt/kubectl.zsh
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 ```
+
+Also you can install with homebrew.
+```console
 $ brew tap superbrothers/zsh-kubectl-prompt git://github.com/superbrothers/zsh-kubectl-prompt.git
 $ brew install zsh-kubectl-prompt
 ```
