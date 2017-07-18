@@ -16,7 +16,7 @@ This script displays information about the kubectl current context and namespace
 
 Also you can install with homebrew as follows:
 ```
-$ brew tap superbrothers/zsh-kubectl-prompt
+$ brew tap superbrothers/zsh-kubectl-prompt git://github.com/superbrothers/zsh-kubectl-prompt.git
 $ brew install zsh-kubectl-prompt
 ```
 
