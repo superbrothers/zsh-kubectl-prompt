@@ -9,7 +9,7 @@ class ZshKubectlPrompt < Formula
     (prefix/"etc/zsh-kubectl-prompt").install "kubectl.zsh"
   end
 
-  def caveats; <<-EOS.undent
+  def caveats; <<~EOS
     Source the `kubectl.zsh` from your `~/.zshrc` config file, and configure your prompt as follows:
       autoload -U colors; colors
       source #{etc}/zsh-kubectl-prompt/kubectl.zsh
