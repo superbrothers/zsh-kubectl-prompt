@@ -1,7 +1,7 @@
 class ZshKubectlPrompt < Formula
   desc "Display information about the kubectl current context and namespace in zsh prompt."
   homepage "https://github.com/superbrothers/zsh-kubectl-prompt"
-  version "v1.0.0"
+  version "v1.0.1"
   url "https://github.com/superbrothers/zsh-kubectl-prompt.git", tag: version
   head "https://github.com/superbrothers/zsh-kubectl-prompt.git", branch: "master"
 
