@@ -16,7 +16,7 @@ RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
 Also you can install with homebrew.
 ```console
-$ brew tap superbrothers/zsh-kubectl-prompt git://github.com/superbrothers/zsh-kubectl-prompt.git
+$ brew tap superbrothers/zsh-kubectl-prompt
 $ brew install zsh-kubectl-prompt
 ```
 

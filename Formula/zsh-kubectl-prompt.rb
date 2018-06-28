@@ -14,6 +14,12 @@ class ZshKubectlPrompt < Formula
       autoload -U colors; colors
       source #{etc}/zsh-kubectl-prompt/kubectl.zsh
       RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+
+    Note that this formula is deprecated. It will be removed in the near future, so please migrate new formula with the following steps:
+      brew uninstall zsh-kubectl-prompt
+      brew untap superbrothers/zsh-kubectl-prompt
+      brew tap superbrothers/zsh-kubectl-prompt
+      brew install zsh-kubectl-prompt
     EOS
   end
 end
