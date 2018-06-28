@@ -35,7 +35,7 @@ function _zsh_kubectl_prompt_precmd() {
     fi
 
     zstyle -s ':zsh-kubectl-prompt:' modified_time_fmt modified_time_fmt
-    if ! now="$(stat $modified_time_fmt "$kubeconfig" 2>/dev/null)"; then
+    if ! now="$(stat -L $modified_time_fmt "$kubeconfig" 2>/dev/null)"; then
         ZSH_KUBECTL_PROMPT="kubeconfig is not found"
         return 1
     fi
