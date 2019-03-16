@@ -51,6 +51,20 @@ autoload -U colors; colors
 RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 ```
 
+If you use [antigen](https://github.com/zsh-users/antigen), load this repository as follows:
+```sh
+source /path-to-antigen/antigen.zsh
+
+# load this plugin
+antigen bundle superbrothers/zsh-kubectl-prompt
+
+# tell antigen that you're done.
+antigen apply
+
+autoload -U colors; colors
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+```
+
 ## License
 
 This script is released under the MIT License.
