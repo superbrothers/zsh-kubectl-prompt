@@ -51,6 +51,7 @@ function _zsh_kubectl_prompt_precmd() {
     fi
     zstyle ':zsh-kubectl-prompt:' updated_at "$now"
 
+    # Set environment variable if context is not set
     if ! context="$(kubectl config current-context 2>/dev/null)"; then
         ZSH_KUBECTL_PROMPT="current-context is not set"
         return 1
@@ -62,14 +63,20 @@ function _zsh_kubectl_prompt_precmd() {
     [[ -z "$ns" ]] && ns="default"
     ZSH_KUBECTL_NAMESPACE="${ns}"
 
+    # Specify the entry before prompt (default empty)
+    zstyle -s ':zsh-kubectl-prompt:' preprompt preprompt
+    # Specify the entry after prompt (default empty)
+    zstyle -s ':zsh-kubectl-prompt:' postprompt postprompt
+
+    # Set environment variable without namespace
     zstyle -s ':zsh-kubectl-prompt:' namespace namespace
     if [[ "$namespace" != true ]]; then
-        ZSH_KUBECTL_PROMPT="${context}"
+        ZSH_KUBECTL_PROMPT="${preprompt}${context}${postprompt}"
         return 0
     fi
 
     zstyle -s ':zsh-kubectl-prompt:' separator separator
-    ZSH_KUBECTL_PROMPT="${context}${separator}${ns}"
+    ZSH_KUBECTL_PROMPT="${preprompt}${context}${separator}${ns}${postprompt}"
 
     return 0
 }
