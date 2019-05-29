@@ -56,6 +56,10 @@ function _zsh_kubectl_prompt_precmd() {
         return 1
     fi
 
+    ZSH_KUBECTL_USER="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.user}")"
+    ZSH_KUBECTL_CONTEXT="${context}"
+    ZSH_KUBECTL_NAMESPACE="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
+
     zstyle -s ':zsh-kubectl-prompt:' namespace namespace
     if [[ "$namespace" != true ]]; then
         ZSH_KUBECTL_PROMPT="${context}"
