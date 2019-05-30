@@ -58,16 +58,15 @@ function _zsh_kubectl_prompt_precmd() {
 
     ZSH_KUBECTL_USER="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.user}")"
     ZSH_KUBECTL_CONTEXT="${context}"
-    ZSH_KUBECTL_NAMESPACE="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
+    ns="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
+    [[ -z "$ns" ]] && ns="default"
+    ZSH_KUBECTL_NAMESPACE="${ns}"
 
     zstyle -s ':zsh-kubectl-prompt:' namespace namespace
     if [[ "$namespace" != true ]]; then
         ZSH_KUBECTL_PROMPT="${context}"
         return 0
     fi
-
-    ns="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
-    [[ -z "$ns" ]] && ns="default"
 
     zstyle -s ':zsh-kubectl-prompt:' separator separator
     ZSH_KUBECTL_PROMPT="${context}${separator}${ns}"
