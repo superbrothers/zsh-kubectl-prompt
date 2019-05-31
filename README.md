@@ -14,6 +14,21 @@ source /path/to/zsh-kubectl-prompt/kubectl.zsh
 RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 ```
 
+Or create different style depending on user, context, namespace.
+The plugin creates 4 variables:
+* ZSH_KUBECTL_CONTEXT
+* ZSH_KUBECTL_NAMESPACE
+* ZSH_KUBECTL_PROMPT
+* ZSH_KUBECTL_USER
+
+For example, make the prompt red when the username matches admin.
+```sh
+autoload -U colors; colors
+source /path/to/zsh-kubectl-prompt/kubectl.zsh
+[[ "$ZSH_KUBECTL_USER" =~ "admin" ]] && color=red || color=blue
+RPROMPT='%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+```
+
 Also you can install with homebrew.
 
 ```console
