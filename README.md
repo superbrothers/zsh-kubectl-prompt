@@ -44,6 +44,18 @@ Change the separator between context and namespace:
 zstyle ':zsh-kubectl-prompt:' separator '|'
 ```
 
+Add custom character before the prompt:
+
+```sh
+zstyle ':zsh-kubectl-prompt:' preprompt '<'
+```
+
+Add custom character after the prompt:
+
+```sh
+zstyle ':zsh-kubectl-prompt:' postprompt '>'
+```
+
 Does not display the current namespace:
 
 ```sh
