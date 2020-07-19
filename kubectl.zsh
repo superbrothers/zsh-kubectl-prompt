@@ -15,14 +15,6 @@ function() {
     if [[ -z "$namespace" ]]; then
         zstyle ':zsh-kubectl-prompt:' namespace true
     fi
-
-    # Check the stat command because it has a different syntax between GNU coreutils and FreeBSD.
-    if stat --help >/dev/null 2>&1; then
-        modified_time_fmt='-c%y' # GNU coreutils
-    else
-        modified_time_fmt='-f%m' # FreeBSD
-    fi
-    zstyle ':zsh-kubectl-prompt:' modified_time_fmt $modified_time_fmt
 }
 
 add-zsh-hook precmd _zsh_kubectl_prompt_precmd
@@ -35,6 +27,15 @@ function _zsh_kubectl_prompt_precmd() {
     fi
 
     zstyle -s ':zsh-kubectl-prompt:' modified_time_fmt modified_time_fmt
+    if [[ -z "$modified_time_fmt" ]]; then
+      # Check the stat command because it has a different syntax between GNU coreutils and FreeBSD.
+      if stat --help >/dev/null 2>&1; then
+          modified_time_fmt='-c%y' # GNU coreutils
+      else
+          modified_time_fmt='-f%m' # FreeBSD
+      fi
+      zstyle ':zsh-kubectl-prompt:' modified_time_fmt $modified_time_fmt
+    fi
 
     # KUBECONFIG environment variable can hold a list of kubeconfig files that is colon-delimited.
     # Therefore, if KUBECONFIG has been held multiple files, each files need to be checked.
