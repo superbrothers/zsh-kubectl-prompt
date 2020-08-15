@@ -2,12 +2,18 @@ setopt prompt_subst
 autoload -U add-zsh-hook
 
 function() {
-    local namespace separator modified_time_fmt
+    local namespace separator_left separator_right modified_time_fmt
 
     # Specify the separator between context and namespace
-    zstyle -s ':zsh-kubectl-prompt:' separator separator
-    if [[ -z "$separator" ]]; then
-        zstyle ':zsh-kubectl-prompt:' separator '/'
+    zstyle -s ':zsh-kubectl-prompt:' separator_left separator_left
+    if [[ -z "$separator_left" ]]; then
+        zstyle ':zsh-kubectl-prompt:' separator_left ':'
+    fi
+
+    # Specify the separator between namespace and cluster
+    zstyle -s ':zsh-kubectl-prompt:' separator_right separator_right
+    if [[ -z "$separator_right" ]]; then
+        zstyle ':zsh-kubectl-prompt:' separator_right '@'
     fi
 
     # Display the current namespace if `namespace` is true
@@ -19,7 +25,7 @@ function() {
 
 add-zsh-hook precmd _zsh_kubectl_prompt_precmd
 function _zsh_kubectl_prompt_precmd() {
-    local kubeconfig config updated_at now context namespace ns separator modified_time_fmt
+    local kubeconfig config updated_at now kube context namespace cluster ns separator_left separator_right modified_time_fmt
 
     kubeconfig="$HOME/.kube/config"
     if [[ -n "$KUBECONFIG" ]]; then
@@ -63,6 +69,8 @@ function _zsh_kubectl_prompt_precmd() {
     ns="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
     [[ -z "$ns" ]] && ns="default"
     ZSH_KUBECTL_NAMESPACE="${ns}"
+    cluster="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.cluster}")"
+    ZSH_KUBECTL_CLUSTER="${cluster}"
 
     # Specify the entry before prompt (default empty)
     zstyle -s ':zsh-kubectl-prompt:' preprompt preprompt
@@ -76,8 +84,9 @@ function _zsh_kubectl_prompt_precmd() {
         return 0
     fi
 
-    zstyle -s ':zsh-kubectl-prompt:' separator separator
-    ZSH_KUBECTL_PROMPT="${preprompt}${context}${separator}${ns}${postprompt}"
+    zstyle -s ':zsh-kubectl-prompt:' separator_left separator_left
+    zstyle -s ':zsh-kubectl-prompt:' separator_right separator_right
+    ZSH_KUBECTL_PROMPT="${preprompt}${context}${separator_left}${ns}${separator_right}${cluster}${postprompt}"
 
     return 0
 }

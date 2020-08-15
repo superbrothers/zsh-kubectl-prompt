@@ -15,11 +15,12 @@ RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 ```
 
 Or create different style depending on user, context, namespace.
-The plugin creates 4 variables:
+The plugin creates 5 variables:
 * ZSH_KUBECTL_CONTEXT
 * ZSH_KUBECTL_NAMESPACE
 * ZSH_KUBECTL_PROMPT
 * ZSH_KUBECTL_USER
+* ZSH_KUBECTL_CLUSTER
 
 For example, make the prompt red when the username matches admin.
 ```sh
@@ -38,10 +39,18 @@ $ brew install zsh-kubectl-prompt
 
 ## Customization
 
-Change the separator between context and namespace:
+Change the left separator between context and namespace or right separator between namespace and cluster:
+
+Add custom left separator:
 
 ```sh
-zstyle ':zsh-kubectl-prompt:' separator '|'
+zstyle ':zsh-kubectl-prompt:' left_separator '|'
+```
+
+Add custom right separator:
+
+```sh
+zstyle ':zsh-kubectl-prompt:' right_separator '@'
 ```
 
 Add custom character before the prompt:
