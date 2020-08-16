@@ -5,9 +5,15 @@ function() {
     local namespace separator_left separator_right modified_time_fmt
 
     # Specify the separator between context and namespace
+    zstyle -s ':zsh-kubectl-prompt:' separator separator
+    if [[ -n "$separator" ]]; then
+        zstyle ':zsh-kubectl-prompt:' separator_left "$separator"
+    fi
+
+    # Specify the separator between context and namespace
     zstyle -s ':zsh-kubectl-prompt:' separator_left separator_left
     if [[ -z "$separator_left" ]]; then
-        zstyle ':zsh-kubectl-prompt:' separator_left ':'
+        zstyle ':zsh-kubectl-prompt:' separator_left '/'
     fi
 
     # Specify the separator between namespace and cluster
@@ -25,7 +31,7 @@ function() {
 
 add-zsh-hook precmd _zsh_kubectl_prompt_precmd
 function _zsh_kubectl_prompt_precmd() {
-    local kubeconfig config updated_at now kube context namespace cluster ns separator_left separator_right modified_time_fmt
+    local kubeconfig config updated_at now context namespace cluster ns separator_left separator_right modified_time_fmt
 
     kubeconfig="$HOME/.kube/config"
     if [[ -n "$KUBECONFIG" ]]; then
@@ -71,6 +77,7 @@ function _zsh_kubectl_prompt_precmd() {
     ZSH_KUBECTL_NAMESPACE="${ns}"
     cluster="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.cluster}")"
     ZSH_KUBECTL_CLUSTER="${cluster}"
+    ZSH_KUBECTL_CLUSTER_ENABLED=false
 
     # Specify the entry before prompt (default empty)
     zstyle -s ':zsh-kubectl-prompt:' preprompt preprompt
@@ -86,7 +93,13 @@ function _zsh_kubectl_prompt_precmd() {
 
     zstyle -s ':zsh-kubectl-prompt:' separator_left separator_left
     zstyle -s ':zsh-kubectl-prompt:' separator_right separator_right
-    ZSH_KUBECTL_PROMPT="${preprompt}${context}${separator_left}${ns}${separator_right}${cluster}${postprompt}"
+    
+    # Check if kubectl cluster need to be displayed
+    if [[ "${ZSH_KUBECTL_CLUSTER_ENABLED}" == "true" ]]; then
+        ZSH_KUBECTL_PROMPT="${preprompt}${context}${separator_left}${ns}${separator_right}${cluster}${postprompt}"
+    else
+        ZSH_KUBECTL_PROMPT="${preprompt}${context}${separator_left}${ns}${postprompt}"
+    fi
 
     return 0
 }
