@@ -25,8 +25,16 @@ For example, make the prompt red when the username matches admin.
 ```sh
 autoload -U colors; colors
 source /path/to/zsh-kubectl-prompt/kubectl.zsh
-[[ "$ZSH_KUBECTL_USER" =~ "admin" ]] && color=red || color=blue
-RPROMPT='%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+function right_prompt() {
+  local color="blue"
+
+  if [[ "$ZSH_KUBECTL_USER" =~ "admin" ]]; then
+    color=red
+  fi
+
+  echo "%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}"
+}
+RPROMPT='$(right_prompt)'
 ```
 
 Also you can install with homebrew.
