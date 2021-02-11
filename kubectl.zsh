@@ -2,7 +2,7 @@ setopt prompt_subst
 autoload -U add-zsh-hook
 
 function() {
-    local namespace separator modified_time_fmt
+    local namespace separator binary
 
     # Specify the separator between context and namespace
     zstyle -s ':zsh-kubectl-prompt:' separator separator
@@ -15,11 +15,23 @@ function() {
     if [[ -z "$namespace" ]]; then
         zstyle ':zsh-kubectl-prompt:' namespace true
     fi
+
+    # Specify the binary to get the information from kubeconfig (e.g. `oc`)
+    zstyle -s ':zsh-kubectl-binary:' binary binary
+    if [[ -z "$binary" ]]; then
+        zstyle ':zsh-kubectl-prompt:' binary "kubectl"
+    fi
 }
 
 add-zsh-hook precmd _zsh_kubectl_prompt_precmd
 function _zsh_kubectl_prompt_precmd() {
-    local kubeconfig config updated_at now context namespace ns separator modified_time_fmt
+    local kubeconfig config updated_at now context namespace ns separator modified_time_fmt binary
+
+    zstyle -s ':zsh-kubectl-prompt:' binary binary
+    if ! command -v "$binary" >/dev/null; then
+      ZSH_KUBECTL_PROMPT="${binary} command not found"
+      return 1
+    fi
 
     kubeconfig="$HOME/.kube/config"
     if [[ -n "$KUBECONFIG" ]]; then
@@ -53,14 +65,14 @@ function _zsh_kubectl_prompt_precmd() {
     zstyle ':zsh-kubectl-prompt:' updated_at "$now"
 
     # Set environment variable if context is not set
-    if ! context="$(kubectl config current-context 2>/dev/null)"; then
+    if ! context="$("$binary" config current-context 2>/dev/null)"; then
         ZSH_KUBECTL_PROMPT="current-context is not set"
         return 1
     fi
 
-    ZSH_KUBECTL_USER="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.user}")"
+    ZSH_KUBECTL_USER="$("$binary" config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.user}")"
     ZSH_KUBECTL_CONTEXT="${context}"
-    ns="$(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
+    ns="$("$binary" config view -o "jsonpath={.contexts[?(@.name==\"$context\")].context.namespace}")"
     [[ -z "$ns" ]] && ns="default"
     ZSH_KUBECTL_NAMESPACE="${ns}"
 
