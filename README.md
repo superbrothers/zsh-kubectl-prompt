@@ -70,6 +70,12 @@ Does not display the current namespace:
 zstyle ':zsh-kubectl-prompt:' namespace false
 ```
 
+Use another binary instead of `kubectl` to get the information (e.g. `oc`):
+
+```sh
+zstyle ':zsh-kubectl-prompt:' binary 'oc'
+```
+
 ## With a plugin manager
 
 If you use [zgen](https://github.com/tarjoilija/zgen), load this repository as follows:
