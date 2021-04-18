@@ -125,6 +125,11 @@ git clone git@github.com:superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM:-~/.o
 plugins=( [plugins...] zsh-kubectl-prompt)
 ```
 
+3. Configure your prompt (or check how to customize the theme plugin you are using)
+```sh
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+```
+
 > **Note:** Remember to source the `.zshrc` or restart your shell after step 2
 
 ## License
