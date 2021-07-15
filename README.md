@@ -116,7 +116,7 @@ If you use [oh-my-zsh](https://ohmyz.sh/), load this repository as follows:
 1. Clone the repo into oh-my-zsh custom plugins folder
 
 ```sh
-git clone git@github.com:superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-kubectl-prompt
+git clone https://github.com/superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-kubectl-prompt
 ```
 
 2. Activate the plugin your `.zshrc` by appending it to the plugin section
