@@ -39,9 +39,9 @@ RPROMPT='$(right_prompt)'
 
 Also you can install with homebrew.
 
-```console
-$ brew tap superbrothers/zsh-kubectl-prompt
-$ brew install zsh-kubectl-prompt
+```sh
+brew tap superbrothers/zsh-kubectl-prompt
+brew install zsh-kubectl-prompt
 ```
 
 ## Customization
